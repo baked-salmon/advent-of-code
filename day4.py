@@ -1,6 +1,7 @@
 import re
+import collections
 
-def parse_file(filename: str) -> list[int]:
+def parse_file(filename: str) -> list:
 	cards = []
 	pattern = re.compile(r"\d\d?")
 	pipe_index = 40
@@ -27,7 +28,7 @@ def parse_file(filename: str) -> list[int]:
 			cards.append(card)
 	return cards
 
-def part1(cards: list[int]) -> int:
+def part1(cards: list) -> int:
 	total = 0
 	for card in cards:
 		power = -1
@@ -38,5 +39,30 @@ def part1(cards: list[int]) -> int:
 			total += 2**power
 	return total
 
+def part2(cards: list) -> int:
+	total = 0 
+	size = len(cards)
+	copies = collections.deque()
+	for index, card in enumerate(cards):
+		next_index = 0
+		for num in card[0]:
+			if num in card[1]:
+				total += 1
+				next_index += 1
+				if next_index + index <= size:
+					copies.append(next_index + index)				
+	while len(copies) > 0:
+		next_index = 0
+		copies_index = copies.pop()
+		cur = cards[copies_index]
+		for num in cur[0]:
+			if num in cur[1]:
+				total += 1
+				next_index += 1
+				if next_index + copies_index <= size:
+					copies.append(copies_index + next_index)
+	return total + size
+
 cards = parse_file("text/day4.txt")
 print(part1(cards))
+print(part2(cards))
