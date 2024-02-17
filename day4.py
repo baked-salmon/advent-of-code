@@ -17,13 +17,13 @@ def parse_file(filename: str) -> list:
 				num = int(num)
 				winning_nums.append(num)
 			card.append(winning_nums)
-			your_nums = []
+			your_nums = set()
 			your_num_str = line[pipe_index + 2:]
 			matches = pattern.finditer(your_num_str)
 			for match in matches:
 				num = your_num_str[match.start(): match.end()]
 				num = int(num)
-				your_nums.append(num)
+				your_nums.add(num)
 			card.append(your_nums)
 			cards.append(card)
 	return cards
