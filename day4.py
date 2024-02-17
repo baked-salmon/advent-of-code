@@ -49,8 +49,7 @@ def part2(cards: list) -> int:
 			if num in card[1]:
 				total += 1
 				next_index += 1
-				if next_index + index <= size:
-					copies.append(next_index + index)				
+				copies.append(next_index + index)				
 	while len(copies) > 0:
 		next_index = 0
 		copies_index = copies.pop()
@@ -59,8 +58,7 @@ def part2(cards: list) -> int:
 			if num in cur[1]:
 				total += 1
 				next_index += 1
-				if next_index + copies_index <= size:
-					copies.append(copies_index + next_index)
+				copies.append(copies_index + next_index)
 	return total + size
 
 cards = parse_file("text/day4.txt")
