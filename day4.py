@@ -41,25 +41,26 @@ def part1(cards: list) -> int:
 
 def part2(cards: list) -> int:
 	total = 0 
-	size = len(cards)
 	copies = collections.deque()
+	cache = {}
 	for index, card in enumerate(cards):
+		win_nums = []
 		next_index = 0
 		for num in card[0]:
 			if num in card[1]:
 				total += 1
 				next_index += 1
-				copies.append(next_index + index)				
+				win_nums.append(next_index + index)
+				copies.append(next_index + index)
+		if len(win_nums) > 0:		
+			cache[index] = win_nums		
 	while len(copies) > 0:
 		next_index = 0
 		copies_index = copies.pop()
-		cur = cards[copies_index]
-		for num in cur[0]:
-			if num in cur[1]:
-				total += 1
-				next_index += 1
-				copies.append(copies_index + next_index)
-	return total + size
+		if copies_index in cache:
+			copies.extend(cache[copies_index])
+			total += len(cache[copies_index])
+	return total + len(cards)
 
 cards = parse_file("text/day4.txt")
 print(part1(cards))
