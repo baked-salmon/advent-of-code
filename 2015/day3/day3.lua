@@ -53,8 +53,8 @@ local function part2(content)
 	return houses
 end
 
-local fileentry = "day3.txt"
-local file = io.open(fileentry)
+local filename = "day3.txt"
+local file = io.open(filename)
 local content = file:read("*all")
 file:close()
 print(part1(content))
