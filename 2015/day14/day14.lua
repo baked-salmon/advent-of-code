@@ -40,16 +40,16 @@ local function solution(filename)
 			end
 		end
 	end
-	local higest_distance, highest_points = 0, 0
+	local highest_distance, highest_points = 0, 0
 	for _, deer in ipairs(deers) do
-		if higest_distance < deer.distance then
-			higest_distance = deer.distance
+		if highest_distance < deer.distance then
+			highest_distance = deer.distance
 		end
 		if highest_points < deer.points then
 			highest_points = deer.points
 		end
 	end
-	return higest_distance, highest_points
+	return highest_distance, highest_points
 end
 
 print(solution("day14.txt"))
