@@ -32,10 +32,10 @@ end
 
 local function process_vertical(grid, size)
 	local total = 0
-	for i = 1, size do
+	for row = 1, size do
 		local vertical_line = ""
-		for j = 1, size do
-			vertical_line = vertical_line .. grid[j][i]
+		for col = 1, size do
+			vertical_line = vertical_line .. grid[col][row]
 		end
 		for _ in string.gmatch(vertical_line, "XMAS") do
 			total = total + 1
@@ -49,20 +49,20 @@ end
 
 local function process_diagonal(grid, size)
 	local total = 0
-	for i = 1, size - 3  do
+	for row = 1, size - 3  do
 		local str = ""
-		for j = 1, size - 3 do
-			str = str .. grid[i][j] .. grid[i + 1][j + 1] .. grid[i + 2][j + 2] .. grid[i + 3][j + 3]
+		for col = 1, size - 3 do
+			str = str .. grid[row][col] .. grid[row + 1][col + 1] .. grid[row + 2][col + 2] .. grid[row + 3][col + 3]
 			if str == "XMAS" or str == "SAMX" then
 				total = total + 1
 			end
 			str = ""
 		end
 	end
-	for i = 4, size do
+	for row = 4, size do
 		local str = ""
-		for j = 1, size - 3 do
-			str = str .. grid[i][j] .. grid[i - 1][j + 1] .. grid[i - 2][j + 2] .. grid[i - 3][j + 3]
+		for col = 1, size - 3 do
+			str = str .. grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2] .. grid[row - 3][col + 3]
 			if str == "XMAS" or str == "SAMX" then
 				total = total + 1
 			end
@@ -72,8 +72,26 @@ local function process_diagonal(grid, size)
 	return total
 end
 
-local file = "input.txt"
-local size = 140
+local function part2(grid, size)
+	local total = 0
+	for row = 3, size do
+		local str1 = ""
+		local str2 = ""
+		for col = 1, size - 2 do
+			str1 = str1 .. grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2]
+			str2 = str2 .. grid[row - 2][col] .. grid[row -1][col + 1] .. grid[row][col + 2]
+			if (str1 == "MAS" or str1 == "SAM") and (str2 == "MAS" or str2 == "SAM") then
+				total = total + 1
+			end
+			str1 = ""
+			str2 = ""
+		end
+	end
+	return total
+end
+
+local file, size  = "input.txt", 140
 local grid = create_grid(file,  size)
 local total = process_horizontal(file) + process_vertical(grid, size) + process_diagonal(grid, size)
 print("Part 1: " .. total)
+print("Part 2: " .. part2(grid, 140))
