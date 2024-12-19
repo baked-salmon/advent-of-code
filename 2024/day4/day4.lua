@@ -49,24 +49,16 @@ end
 
 local function process_diagonal(grid, size)
 	local total = 0
-	for row = 1, size - 3  do
-		local str = ""
-		for col = 1, size - 3 do
-			str = str .. grid[row][col] .. grid[row + 1][col + 1] .. grid[row + 2][col + 2] .. grid[row + 3][col + 3]
-			if str == "XMAS" or str == "SAMX" then
-				total = total + 1
-			end
-			str = ""
-		end
-	end
 	for row = 4, size do
-		local str = ""
 		for col = 1, size - 3 do
-			str = str .. grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2] .. grid[row - 3][col + 3]
-			if str == "XMAS" or str == "SAMX" then
+			local str1 = grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2] .. grid[row - 3][col + 3]
+			local str2 = grid[row - 3][col] .. grid[row - 2][col + 1] .. grid[row - 1][col + 2] .. grid[row][col + 3]
+			if str1 == "XMAS" or str1 == "SAMX" then
 				total = total + 1
 			end
-			str = ""
+			if str2 == "XMAS" or str2 == "SAMX" then
+				total = total + 1
+			end
 		end
 	end
 	return total
@@ -75,16 +67,12 @@ end
 local function part2(grid, size)
 	local total = 0
 	for row = 3, size do
-		local str1 = ""
-		local str2 = ""
 		for col = 1, size - 2 do
-			str1 = str1 .. grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2]
-			str2 = str2 .. grid[row - 2][col] .. grid[row -1][col + 1] .. grid[row][col + 2]
+			local str1 = grid[row][col] .. grid[row - 1][col + 1] .. grid[row - 2][col + 2]
+			local str2 = grid[row - 2][col] .. grid[row -1][col + 1] .. grid[row][col + 2]
 			if (str1 == "MAS" or str1 == "SAM") and (str2 == "MAS" or str2 == "SAM") then
 				total = total + 1
 			end
-			str1 = ""
-			str2 = ""
 		end
 	end
 	return total
@@ -94,4 +82,4 @@ local file, size  = "input.txt", 140
 local grid = create_grid(file,  size)
 local total = process_horizontal(file) + process_vertical(grid, size) + process_diagonal(grid, size)
 print("Part 1: " .. total)
-print("Part 2: " .. part2(grid, 140))
+print("Part 2: " .. part2(grid, size))
